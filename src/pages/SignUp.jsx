@@ -1,7 +1,9 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { useAuth } from "../context/AuthProvider";
-import { Button, Typography, TextField } from "@mui/material";
+import { useErrorMessage } from "../context/ErrorProvider.jsx";
+import { useSnackbar } from "../context/SnackbarProvider.jsx";
+import { Button, Typography, TextField, Snackbar, Alert  } from "@mui/material";
 import axios from "axios";
 
 export default function SignUp() {
@@ -11,21 +13,36 @@ export default function SignUp() {
     formState: { errors },
   } = useForm();
 
+  const { login } = useAuth();
+  const { openSnackbar, setOpenSnackbar, snackbarMessage, setSnackbarMessage } =
+    useSnackbar();
   const navigate = useNavigate();
-  const { setLogIn } = useAuth();
 
   const onSubmit = async (data) => {
+    setSnackbarMessage("");
+
     try {
-      const response = await axios.post("http://localhost:3000/auth/register", {
-        username: data.username.trim(),
-        password: data.password.trim(),
-      });
-      alert("Регистрация прошла успешно!");
-      setLogIn(true);
+      const response = await axios.post(
+        "http://localhost:3000/auth/register",
+        {
+          username: data.username.trim(),
+          password: data.password.trim(),
+        },
+        { withCredentials: true }
+      );
+      setSnackbarMessage("Регистрация прошла успешно!");
+      setOpenSnackbar(true);
+      await login(data.username);
       navigate("/profile");
     } catch (err) {
-      alert("Ошибка регистрации:" + err.response?.data?.message);
+      setSnackbarMessage("Ошибка регистрации:" + err.response?.data?.message);
+      setOpenSnackbar(true);
     }
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason == "clickway") return;
+    setOpenSnackbar(false);
   };
 
   return (
@@ -73,6 +90,17 @@ export default function SignUp() {
           Зарегистрироваться
         </Button>
       </form>
+
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="error">
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 }

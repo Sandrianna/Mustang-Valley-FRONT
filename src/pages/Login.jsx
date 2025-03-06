@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, NavLink, Link } from "react-router";
 import { useErrorMessage } from "../context/ErrorProvider";
+import { useSnackbar } from "../context/SnackbarProvider";
+import { useAuth } from "../context/AuthProvider";
 import {
   Button,
   Typography,
@@ -22,8 +24,8 @@ export default function Login() {
   } = useForm();
 
   const { errorMessage, setErrorMessage } = useErrorMessage();
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const { openSnackbar, setOpenSnackbar,  snackbarMessage, setSnackbarMessage} = useSnackbar();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,9 +47,10 @@ export default function Login() {
       const response = await axios.post("http://localhost:3000/auth/login", {
         username: data.username.trim(),
         password: data.password.trim(),
-      });
+      },{withCredentials: true});
 
       if (response.status === 201) {
+        login(data.username);
         navigate("/profile");
       } else if (response.status === 401) {
         setSnackbarMessage(response.data.message);

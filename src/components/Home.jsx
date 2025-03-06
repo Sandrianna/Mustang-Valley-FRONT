@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthProvider";
 import { AppBar, Toolbar, Button, Box } from "@mui/material";
 
 export default function Home() {
-  const { logIn } = useAuth();
+  const { user } = useAuth();
   return (
     <AppBar position="fixed" sx={{ width: "100%", top: 0, left: 0, zIndex: 1 }}>
       <Toolbar>
@@ -20,9 +20,9 @@ export default function Home() {
           <Button
             color="inherit"
             component={NavLink}
-            to={logIn ? "/profile" : "/login"}
+            to={user ? "/profile" : "/login"}
           >
-            {logIn ? "Профиль" : "Войти"}
+            {user ? "Профиль" : "Войти"}
           </Button>
         </Box>
       </Toolbar>

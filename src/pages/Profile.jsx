@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router";
 import { useState, useEffect } from "react";
 import { useErrorMessage } from "../context/ErrorProvider.jsx";
 import { useAuth } from "../context/AuthProvider.jsx";
@@ -15,24 +14,21 @@ import {
 } from "@mui/material";
 
 export default function Profile() {
-  const { setLogIn } = useAuth();
+  const { user, logout} = useAuth();
   const { setErrorMessage } = useErrorMessage();
-  const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useLogIn();
 
-  const handleLogOut = () => {
-    navigate("/login");
-  };
 
   useEffect(() => {
+    if(!user) return;
+
     axios
-      .get("http://localhost:3000/auth/profile")
+      .get("http://localhost:3000/auth/profile", {withCredentials: true})
       .then((response) => {
         setProfile(response.data);
-        setLogIn(true);
       })
 
       .catch(() => {
@@ -41,7 +37,7 @@ export default function Profile() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [user]);
 
   return (
     <Container maxWidth="sm">
@@ -59,14 +55,14 @@ export default function Profile() {
           </Box>
         )}
         <Typography variant="h5" gutterBottom>
-          {profile?.username
-            ? `Добро пожаловать, ${profile.username}!`
+          {user?.username
+            ? `Добро пожаловать, ${user.username}!`
             : "Проверка входа"}
         </Typography>
         <Button
           variant="contained"
           color="primary"
-          onClick={handleLogOut}
+          onClick={logout}
           sx={{ marginTop: 3 }}
         >
           Выйти
