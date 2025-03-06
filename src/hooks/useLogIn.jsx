@@ -13,7 +13,7 @@ export default function useLogIn() {
         return response;
       },
       (error) => {
-        if (error.response) {
+        if (error.response && error.response.status === 401) {
           setErrorMessage("Вы не вошли в профиль!");
           navigate("/login");
         }
