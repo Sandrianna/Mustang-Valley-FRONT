@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router";
 import useLogIn from "./hooks/useLogIn.jsx";
 import HomePage from "./pages/HomePage.jsx";
+import { SnackbarProvider } from "./context/SnackbarProvider.jsx";
 import Home from "./components/Home.jsx";
 import Gallery from "./pages/Gallery.jsx";
 import Profile from "./pages/Profile.jsx";
@@ -16,8 +17,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/gallery" element={<Gallery />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/registration" element={<SignUp />} />
+        <Route path="/login" element={<SnackbarProvider><Login /></SnackbarProvider>} />
+        <Route path="/registration" element={<SnackbarProvider><SignUp /></SnackbarProvider>} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
     </>
