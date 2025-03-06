@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useErrorMessage } from "../context/ErrorProvider.jsx";
 import useLogIn from "../hooks/useLogIn.jsx";
+import { useAuth } from "../context/AuthProvider.jsx";
+import { useNavigate } from "react-router";
 import axios from "axios";
 import {
   Button,
@@ -17,10 +19,18 @@ export default function Gallery() {
   const { setErrorMessage } = useErrorMessage();
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   useLogIn();
 
   const fetchData = async () => {
+    if(!user) {
+      setErrorMessage("Вы не вошли в профиль!");
+      navigate("/login");
+      return;
+    }
+    
     setLoading(true);
 
     axios
