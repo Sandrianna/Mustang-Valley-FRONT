@@ -23,53 +23,47 @@ export default function Login() {
     setError,
   } = useForm();
 
-  const { errorMessage, setErrorMessage } = useErrorMessage();
-  const { openSnackbar, setOpenSnackbar,  snackbarMessage, setSnackbarMessage} = useSnackbar();
+  const { errorMessage, clearErrorMessage } = useErrorMessage();
+  const { openSnackbar, showSnackbar, snackbarMessage, closeSnackbar } =
+    useSnackbar();
   const { login } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    setSnackbarMessage("");
-    setErrorMessage("");
-  }, [setErrorMessage]);
+    clearErrorMessage();
+  }, []);
 
   useEffect(() => {
     if (errorMessage) {
-      setSnackbarMessage(errorMessage);
-      setOpenSnackbar(true);
+      showSnackbar(errorMessage);
     }
   }, [errorMessage]);
 
   const onSubmit = async (data) => {
-    setSnackbarMessage("");
-
     try {
-      const response = await axios.post("http://localhost:3000/auth/login", {
-        username: data.username.trim(),
-        password: data.password.trim(),
-      },{withCredentials: true});
+      const response = await axios.post(
+        "http://localhost:3000/auth/login",
+        {
+          username: data.username.trim(),
+          password: data.password.trim(),
+        },
+        { withCredentials: true }
+      );
 
       if (response.status === 201) {
         login(data.username);
         navigate("/profile");
       } else if (response.status === 401) {
-        setSnackbarMessage(response.data.message);
-        setOpenSnackbar(true);
+        showSnackbar(response.data.message);
       }
     } catch (error) {
       if (error.response) {
         const errorText = error.response?.data.message || "Ошибка при входе";
-        setSnackbarMessage(errorText);
-        setOpenSnackbar(true);
+        showSnackbar(errorText);
       } else {
-        setSnackbarMessage("Произошла ошибка ");
+        showSnackbar("Произошла ошибка ");
       }
     }
-  };
-
-  const handleCloseSnackbar = (event, reason) => {
-    if (reason == "clickway") return;
-    setOpenSnackbar(false);
   };
 
   return (
@@ -130,10 +124,10 @@ export default function Login() {
       <Snackbar
         open={openSnackbar}
         autoHideDuration={3000}
-        onClose={handleCloseSnackbar}
+        onClose={closeSnackbar}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert onClose={handleCloseSnackbar} severity="error">
+        <Alert onClose={closeSnackbar} severity="error">
           {snackbarMessage}
         </Alert>
       </Snackbar>

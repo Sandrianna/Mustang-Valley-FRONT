@@ -14,7 +14,7 @@ export default function useLogIn() {
       },
       (error) => {
         if (error.response && error.response.status === 401) {
-          setErrorMessage("Вы не вошли в профиль!");
+          setErrorMessage("Неверный логин или пароль!");
           navigate("/login");
         }
         return Promise.reject(error);

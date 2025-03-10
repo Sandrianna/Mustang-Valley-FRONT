@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useErrorMessage } from "../context/ErrorProvider.jsx";
-import useLogIn from "../hooks/useLogIn.jsx";
 import { useAuth } from "../context/AuthProvider.jsx";
+import { useLoading } from "../context/LoadingProvider.jsx";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import {
@@ -16,34 +16,32 @@ import {
 import "../styles/gallery.css";
 
 export default function Gallery() {
-  const { setErrorMessage } = useErrorMessage();
+  const { setErrorMessage, clearErrorMessage } = useErrorMessage();
+  const { loading, startLoading, stopLoading } = useLoading();
   const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  useLogIn();
-
   const fetchData = async () => {
-    if(!user) {
+    if (!user) {
       setErrorMessage("Вы не вошли в профиль!");
       navigate("/login");
       return;
     }
-    
-    setLoading(true);
+
+    startLoading();
 
     axios
       .get("https://dog.ceo/api/breeds/image/random/20")
       .then((response) => {
         setImages(response.data.message);
-        setErrorMessage("");
+        clearErrorMessage();
       })
       .catch(() => {
         setErrorMessage("Ошибка загрузки изображений");
       })
       .finally(() => {
-        setLoading(false);
+        stopLoading();
       });
   };
 

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { useAuth } from "../context/AuthProvider";
 import { useErrorMessage } from "../context/ErrorProvider.jsx";
 import { useSnackbar } from "../context/SnackbarProvider.jsx";
-import { Button, Typography, TextField, Snackbar, Alert  } from "@mui/material";
+import { Button, Typography, TextField, Snackbar, Alert } from "@mui/material";
 import axios from "axios";
 
 export default function SignUp() {
@@ -14,13 +14,11 @@ export default function SignUp() {
   } = useForm();
 
   const { login } = useAuth();
-  const { openSnackbar, setOpenSnackbar, snackbarMessage, setSnackbarMessage } =
+  const { openSnackbar, snackbarMessage, closeSnackbar, showSnackbar } =
     useSnackbar();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    setSnackbarMessage("");
-
     try {
       const response = await axios.post(
         "http://localhost:3000/auth/register",
@@ -30,19 +28,12 @@ export default function SignUp() {
         },
         { withCredentials: true }
       );
-      setSnackbarMessage("Регистрация прошла успешно!");
-      setOpenSnackbar(true);
+      showSnackbar("Регистрация прошла успешно!");
       await login(data.username);
       navigate("/profile");
     } catch (err) {
-      setSnackbarMessage("Ошибка регистрации:" + err.response?.data?.message);
-      setOpenSnackbar(true);
+      showSnackbar("Ошибка регистрации:" + err.response?.data?.message);
     }
-  };
-
-  const handleCloseSnackbar = (event, reason) => {
-    if (reason == "clickway") return;
-    setOpenSnackbar(false);
   };
 
   return (
@@ -94,10 +85,10 @@ export default function SignUp() {
       <Snackbar
         open={openSnackbar}
         autoHideDuration={3000}
-        onClose={handleCloseSnackbar}
+        onClose={closeSnackbar}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert onClose={handleCloseSnackbar} severity="error">
+        <Alert onClose={closeSnackbar} severity="error">
           {snackbarMessage}
         </Alert>
       </Snackbar>

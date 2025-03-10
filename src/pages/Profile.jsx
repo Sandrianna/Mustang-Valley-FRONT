@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useErrorMessage } from "../context/ErrorProvider.jsx";
+import { useLoading } from "../context/LoadingProvider.jsx";
 import { useAuth } from "../context/AuthProvider.jsx";
-import useLogIn from "../hooks/useLogIn.jsx";
+import { useNavigate } from "react-router";
 import axios from "axios";
 import {
   Button,
@@ -14,19 +15,19 @@ import {
 } from "@mui/material";
 
 export default function Profile() {
-  const { user, logout} = useAuth();
+  const { user, logout } = useAuth();
   const { setErrorMessage } = useErrorMessage();
+  const { loading, startLoading, stopLoading } = useLoading();
   const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useLogIn();
-
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if(!user) return;
+    if (!user) return navigate("/login");
+
+    startLoading();
 
     axios
-      .get("http://localhost:3000/auth/profile", {withCredentials: true})
+      .get("http://localhost:3000/auth/profile", { withCredentials: true })
       .then((response) => {
         setProfile(response.data);
       })
@@ -35,7 +36,7 @@ export default function Profile() {
         setErrorMessage("Ошибка загрузки профиля");
       })
       .finally(() => {
-        setLoading(false);
+        stopLoading();
       });
   }, [user]);
 
