@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { useErrorMessage } from "../context/ErrorProvider.jsx";
-import { useLoading } from "../context/LoadingProvider.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { startLoading, stopLoading } from "../store/loadingSlice.ts";
+import { setErrorMessage } from "../store/errorSlice.ts";
 import { useAuth } from "../context/AuthProvider.jsx";
 import { useNavigate } from "react-router";
 import axios from "axios";
@@ -16,27 +17,28 @@ import {
 
 export default function Profile() {
   const { user, logout } = useAuth();
-  const { setErrorMessage } = useErrorMessage();
-  const { loading, startLoading, stopLoading } = useLoading();
   const [profile, setProfile] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.loading.load);
 
   useEffect(() => {
     if (!user) return navigate("/login");
 
-    startLoading();
+    dispatch(startLoading());
 
     axios
       .get("http://localhost:3000/auth/profile", { withCredentials: true })
       .then((response) => {
-        setProfile(response.data);
+        setProfile(response.data.user);
       })
 
       .catch(() => {
-        setErrorMessage("Ошибка загрузки профиля");
+        dispatch(setErrorMessage("Ошибка загрузки профиля"));
+        logout();
       })
       .finally(() => {
-        stopLoading();
+        dispatch(stopLoading());
       });
   }, [user]);
 
@@ -56,8 +58,8 @@ export default function Profile() {
           </Box>
         )}
         <Typography variant="h5" gutterBottom>
-          {user?.username
-            ? `Добро пожаловать, ${user.username}!`
+          {profile?.username
+            ? `Добро пожаловать, ${profile.username}!`
             : "Проверка входа"}
         </Typography>
         <Button
