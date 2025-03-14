@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useErrorMessage } from "../context/ErrorProvider.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { setErrorMessage, clearErrorMessage } from "../store/errorSlice.ts";
+import { startLoading, stopLoading } from "../store/loadingSlice.ts";
 import { useAuth } from "../context/AuthProvider.jsx";
-import { useLoading } from "../context/LoadingProvider.jsx";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import {
@@ -16,32 +17,32 @@ import {
 import "../styles/gallery.css";
 
 export default function Gallery() {
-  const { setErrorMessage, clearErrorMessage } = useErrorMessage();
-  const { loading, startLoading, stopLoading } = useLoading();
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.loading.load);
   const [images, setImages] = useState([]);
   const { user } = useAuth();
   const navigate = useNavigate();
 
   const fetchData = async () => {
     if (!user) {
-      setErrorMessage("Вы не вошли в профиль!");
+      dispatch(setErrorMessage("Вы не вошли в профиль!"));
       navigate("/login");
       return;
     }
 
-    startLoading();
+    dispatch(startLoading());
 
     axios
-      .get("https://dog.ceo/api/breeds/image/random/20")
+      .get("http://localhost:3000/users/me/images", { withCredentials: true })
       .then((response) => {
         setImages(response.data.message);
-        clearErrorMessage();
+        dispatch(clearErrorMessage());
       })
       .catch(() => {
-        setErrorMessage("Ошибка загрузки изображений");
+        dispatch(setErrorMessage("Ошибка загрузки изображений"));
       })
       .finally(() => {
-        stopLoading();
+        dispatch(stopLoading());
       });
   };
 
