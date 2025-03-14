@@ -1,8 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { useAuth } from "../context/AuthProvider";
-import { useErrorMessage } from "../context/ErrorProvider.jsx";
-import { useSnackbar } from "../context/SnackbarProvider.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { showSnackbar, closeSnackbar } from "../store/snackbarSlice.ts";
 import { Button, Typography, TextField, Snackbar, Alert } from "@mui/material";
 import axios from "axios";
 
@@ -13,9 +12,9 @@ export default function SignUp() {
     formState: { errors },
   } = useForm();
 
-  const { login } = useAuth();
-  const { openSnackbar, snackbarMessage, closeSnackbar, showSnackbar } =
-    useSnackbar();
+  const dispatch = useDispatch();
+  const openSnackbar = useSelector((state) => state.snackbar.open);
+  const snackbarMessage = useSelector((state) => state.snacbar.message);
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -28,11 +27,13 @@ export default function SignUp() {
         },
         { withCredentials: true }
       );
-      showSnackbar("Регистрация прошла успешно!");
+      dispatch(showSnackbar("Регистрация прошла успешно!"));
       await login(data.username);
       navigate("/profile");
     } catch (err) {
-      showSnackbar("Ошибка регистрации:" + err.response?.data?.message);
+      dispatch(
+        showSnackbar("Ошибка регистрации:" + err.response?.data?.message)
+      );
     }
   };
 
@@ -85,10 +86,10 @@ export default function SignUp() {
       <Snackbar
         open={openSnackbar}
         autoHideDuration={3000}
-        onClose={closeSnackbar}
+        onClose={() => dispatch(closeSnackbar())}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert onClose={closeSnackbar} severity="error">
+        <Alert onClose={() => dispatch(closeSnackbar())} severity="error">
           {snackbarMessage}
         </Alert>
       </Snackbar>
