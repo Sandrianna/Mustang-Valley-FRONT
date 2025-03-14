@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, NavLink, Link } from "react-router";
-import { useErrorMessage } from "../context/ErrorProvider";
-import { useSnackbar } from "../context/SnackbarProvider";
-import { useAuth } from "../context/AuthProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { clearErrorMessage } from "../store/errorSlice.ts";
+import { showSnackbar, closeSnackbar } from "../store/snackbarSlice.ts";
+import { useAuth } from "../context/AuthProvider.jsx";
 import {
   Button,
   Typography,
@@ -23,19 +24,20 @@ export default function Login() {
     setError,
   } = useForm();
 
-  const { errorMessage, clearErrorMessage } = useErrorMessage();
-  const { openSnackbar, showSnackbar, snackbarMessage, closeSnackbar } =
-    useSnackbar();
+  const dispatch = useDispatch();
+  const errorMessage = useSelector((state) => state.error.errorMessage);
+  const openSnackbar = useSelector((state) => state.snackbar.open);
+  const snackbarMessage = useSelector((state) => state.snackbar.message);
   const { login } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    clearErrorMessage();
+    dispatch(clearErrorMessage());
   }, []);
 
   useEffect(() => {
     if (errorMessage) {
-      showSnackbar(errorMessage);
+      dispatch(showSnackbar(errorMessage));
     }
   }, [errorMessage]);
 
@@ -53,15 +55,11 @@ export default function Login() {
       if (response.status === 201) {
         login(data.username);
         navigate("/profile");
-      } else if (response.status === 401) {
-        showSnackbar(response.data.message);
       }
     } catch (error) {
       if (error.response) {
         const errorText = error.response?.data.message || "Ошибка при входе";
-        showSnackbar(errorText);
-      } else {
-        showSnackbar("Произошла ошибка ");
+        dispatch(showSnackbar(errorText));
       }
     }
   };
@@ -124,10 +122,10 @@ export default function Login() {
       <Snackbar
         open={openSnackbar}
         autoHideDuration={3000}
-        onClose={closeSnackbar}
+        onClose={() => dispatch(closeSnackbar())}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert onClose={closeSnackbar} severity="error">
+        <Alert onClose={() => dispatch(closeSnackbar())} severity="error">
           {snackbarMessage}
         </Alert>
       </Snackbar>
