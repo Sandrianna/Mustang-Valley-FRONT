@@ -1,6 +1,5 @@
 import { useContext, useState, createContext, useEffect } from "react";
 import { useNavigate } from "react-router";
-import Cookies from "js-cookie";
 
 const AuthContext = createContext();
 
@@ -9,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const username = Cookies.get("");
+    const username = null;
     if (username) {
       setUser({ username });
     }
@@ -20,7 +19,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    Cookies.remove("");
     setUser(null);
     navigate("/login");
   };

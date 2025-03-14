@@ -1,5 +1,5 @@
 import { NavLink } from "react-router";
-import { useAuth } from "../context/AuthProvider";
+import { useAuth } from "../context/AuthProvider.jsx";
 import { AppBar, Toolbar, Button, Box } from "@mui/material";
 
 export default function Home() {
