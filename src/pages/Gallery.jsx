@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setErrorMessage, clearErrorMessage } from "../store/errorSlice.ts";
+import { showSnackbar } from "../store/snackbarSlice.ts";
 import { startLoading, stopLoading } from "../store/loadingSlice.ts";
-import { useAuth } from "../context/AuthProvider.jsx";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import {
@@ -20,12 +19,12 @@ export default function Gallery() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loading.load);
   const [images, setImages] = useState([]);
-  const { user } = useAuth();
+  const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
 
   const fetchData = async () => {
     if (!user) {
-      dispatch(setErrorMessage("Вы не вошли в профиль!"));
+      dispatch(showSnackbar("Вы не вошли в профиль!"));
       navigate("/login");
       return;
     }
@@ -36,10 +35,9 @@ export default function Gallery() {
       .get("http://localhost:3000/users/me/images", { withCredentials: true })
       .then((response) => {
         setImages(response.data.message);
-        dispatch(clearErrorMessage());
       })
       .catch(() => {
-        dispatch(setErrorMessage("Ошибка загрузки изображений"));
+        dispatch(showSnackbar("Ошибка загрузки изображений"));
       })
       .finally(() => {
         dispatch(stopLoading());

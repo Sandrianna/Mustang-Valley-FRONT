@@ -1,18 +1,8 @@
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, NavLink, Link } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import { clearErrorMessage } from "../store/errorSlice.ts";
-import { showSnackbar, closeSnackbar } from "../store/snackbarSlice.ts";
-import { useAuth } from "../context/AuthProvider.jsx";
-import {
-  Button,
-  Typography,
-  TextField,
-  Alert,
-  Box,
-  Snackbar,
-} from "@mui/material";
+import { useDispatch } from "react-redux";
+import { login } from "../store/authSlice.ts";
+import { Button, Typography, TextField, Box } from "@mui/material";
 import axios from "axios";
 import "../styles/index.css";
 
@@ -25,21 +15,7 @@ export default function Login() {
   } = useForm();
 
   const dispatch = useDispatch();
-  const errorMessage = useSelector((state) => state.error.errorMessage);
-  const openSnackbar = useSelector((state) => state.snackbar.open);
-  const snackbarMessage = useSelector((state) => state.snackbar.message);
-  const { login } = useAuth();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    dispatch(clearErrorMessage());
-  }, []);
-
-  useEffect(() => {
-    if (errorMessage) {
-      dispatch(showSnackbar(errorMessage));
-    }
-  }, [errorMessage]);
 
   const onSubmit = async (data) => {
     try {
@@ -53,15 +29,10 @@ export default function Login() {
       );
 
       if (response.status === 201) {
-        login(data.username);
+        dispatch(login(data.username));
         navigate("/profile");
       }
-    } catch (error) {
-      if (error.response) {
-        const errorText = error.response?.data.message || "Ошибка при входе";
-        dispatch(showSnackbar(errorText));
-      }
-    }
+    } catch (error) {}
   };
 
   return (
@@ -118,17 +89,6 @@ export default function Login() {
           </Typography>
         </Box>
       </form>
-
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={3000}
-        onClose={() => dispatch(closeSnackbar())}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert onClose={() => dispatch(closeSnackbar())} severity="error">
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
     </>
   );
 }

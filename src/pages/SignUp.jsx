@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import { showSnackbar, closeSnackbar } from "../store/snackbarSlice.ts";
-import { Button, Typography, TextField, Snackbar, Alert } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { showSnackbar } from "../store/snackbarSlice.ts";
+import { Button, Typography, TextField } from "@mui/material";
 import axios from "axios";
 
 export default function SignUp() {
@@ -13,8 +13,6 @@ export default function SignUp() {
   } = useForm();
 
   const dispatch = useDispatch();
-  const openSnackbar = useSelector((state) => state.snackbar.open);
-  const snackbarMessage = useSelector((state) => state.snacbar.message);
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -27,13 +25,11 @@ export default function SignUp() {
         },
         { withCredentials: true }
       );
-      dispatch(showSnackbar("Регистрация прошла успешно!"));
       await login(data.username);
       navigate("/profile");
     } catch (err) {
-      dispatch(
-        showSnackbar("Ошибка регистрации:" + err.response?.data?.message)
-      );
+      const errorText = err.response?.data?.message || "Неизвестная ошибка";
+      dispatch(showSnackbar(errorText));
     }
   };
 
@@ -82,17 +78,6 @@ export default function SignUp() {
           Зарегистрироваться
         </Button>
       </form>
-
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={3000}
-        onClose={() => dispatch(closeSnackbar())}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert onClose={() => dispatch(closeSnackbar())} severity="error">
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
     </>
   );
 }

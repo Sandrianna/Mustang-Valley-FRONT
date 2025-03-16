@@ -1,13 +1,11 @@
 import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { useAuth } from "../context/AuthProvider.jsx";
 import { useDispatch } from "react-redux"; 
-import { setErrorMessage} from "../store/errorSlice.ts";
+import { showSnackbar } from "../store/snackbarSlice.ts";
 
 export default function useLogIn() {
   const dispatch = useDispatch();
-  const { setUser } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,8 +15,8 @@ export default function useLogIn() {
       },
       (error) => {
         if (error.response && error.response.status === 401) {
-          dispatch(setErrorMessage("Неверный логин или пароль!"));
-          setUser(null);
+          dispatch(showSnackbar("Неверный логин или пароль!"));
+ 
           navigate("/login");
         }
         return Promise.reject(error);
@@ -27,5 +25,5 @@ export default function useLogIn() {
     return () => {
       axios.interceptors.response.eject(interceptor);
     };
-  }, [navigate, setErrorMessage]);
+  }, [navigate, showSnackbar]);
 }

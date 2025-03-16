@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { startLoading, stopLoading } from "../store/loadingSlice.ts";
-import { setErrorMessage } from "../store/errorSlice.ts";
-import { useAuth } from "../context/AuthProvider.jsx";
+import { showSnackbar } from "../store/snackbarSlice.ts";
+import { logout } from "../store/authSlice.ts";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import {
@@ -12,14 +12,13 @@ import {
   Paper,
   Box,
   CircularProgress,
-  Alert,
 } from "@mui/material";
 
 export default function Profile() {
-  const { user, logout } = useAuth();
   const [profile, setProfile] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
   const loading = useSelector((state) => state.loading.load);
 
   useEffect(() => {
@@ -34,8 +33,8 @@ export default function Profile() {
       })
 
       .catch(() => {
-        dispatch(setErrorMessage("Ошибка загрузки профиля"));
-        logout();
+        dispatch(showSnackbar("Ошибка загрузки профиля"));
+        dispatch(logout());
       })
       .finally(() => {
         dispatch(stopLoading());
@@ -65,7 +64,7 @@ export default function Profile() {
         <Button
           variant="contained"
           color="primary"
-          onClick={logout}
+          onClick={() => dispatch(logout())}
           sx={{ marginTop: 3 }}
         >
           Выйти
