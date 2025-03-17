@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { showSnackbar } from "../store/snackbarSlice.ts";
+import { fetchSignUp } from "../store/signSliceThunk.js";
 import { Button, Typography, TextField } from "@mui/material";
-import axios from "axios";
+import { fetchLogin } from "../store/loginSliceThunk.js";
 
-export default function SignUp() {
+export function SignUp() {
   const {
     register,
     handleSubmit,
@@ -16,20 +16,12 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/auth/register",
-        {
-          username: data.username.trim(),
-          password: data.password.trim(),
-        },
-        { withCredentials: true }
-      );
-      await login(data.username);
-      navigate("/profile");
-    } catch (err) {
-      const errorText = err.response?.data?.message || "Неизвестная ошибка";
-      dispatch(showSnackbar(errorText));
+    const resultAction = await dispatch(fetchSignUp(data));
+    if (fetchSignUp.fulfilled.match(resultAction)) {
+      const loginResult = await dispatch(fetchLogin(data));
+      if (fetchLogin.fulfilled.match(loginResult)) {
+        navigate("/profile");
+      }
     }
   };
 
