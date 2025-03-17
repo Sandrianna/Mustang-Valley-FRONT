@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Snackbar, Alert } from "@mui/material";
 import { closeSnackbar } from "../store/snackbarSlice";
 
-export default function SnackbarComponent() {
+export function SnackbarComponent() {
   const dispatch = useDispatch();
   const openSnackbar = useSelector((state) => state.snackbar.open);
   const snackbarMessage = useSelector((state) => state.snackbar.message);
