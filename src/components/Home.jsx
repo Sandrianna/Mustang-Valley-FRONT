@@ -2,8 +2,8 @@ import { NavLink } from "react-router";
 import { useSelector } from "react-redux";
 import { AppBar, Toolbar, Button, Box } from "@mui/material";
 
-export default function Home() {
-  const user = useSelector((state) => state.auth.user);
+export function Home() {
+  const user = useSelector((state) => state.login.user);
   return (
     <AppBar position="fixed" sx={{ width: "100%", top: 0, left: 0, zIndex: 1 }}>
       <Toolbar>

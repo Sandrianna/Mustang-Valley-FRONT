@@ -1,6 +1,6 @@
 import { Container, Typography, Box } from "@mui/material";
 
-export default function HomePage() {
+export function HomePage() {
   return (
     <Container maxWidth="md">
       <Box
