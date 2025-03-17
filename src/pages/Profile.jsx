@@ -1,10 +1,8 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { startLoading, stopLoading } from "../store/loadingSlice.ts";
-import { showSnackbar } from "../store/snackbarSlice.ts";
-import { logout } from "../store/authSlice.ts";
+import { fetchProfile, clearProfile } from "../store/profileSliceThunk.js";
+import { logout } from "../store/loginSliceThunk.js";
 import { useNavigate } from "react-router";
-import axios from "axios";
 import {
   Button,
   Container,
@@ -14,32 +12,20 @@ import {
   CircularProgress,
 } from "@mui/material";
 
-export default function Profile() {
-  const [profile, setProfile] = useState(null);
+export function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
-  const loading = useSelector((state) => state.loading.load);
+  const profile = useSelector((state) => state.profile.profile);
+  const user = useSelector((state) => state.login.user);
+  const status = useSelector((state) => state.profile.status);
 
   useEffect(() => {
-    if (!user) return navigate("/login");
+    dispatch(fetchProfile());
 
-    dispatch(startLoading());
-
-    axios
-      .get("http://localhost:3000/auth/profile", { withCredentials: true })
-      .then((response) => {
-        setProfile(response.data.user);
-      })
-
-      .catch(() => {
-        dispatch(showSnackbar("Ошибка загрузки профиля"));
-        dispatch(logout());
-      })
-      .finally(() => {
-        dispatch(stopLoading());
-      });
-  }, [user]);
+    return () => {
+      dispatch(clearProfile());
+    };
+  }, []);
 
   return (
     <Container maxWidth="sm">
@@ -47,7 +33,7 @@ export default function Profile() {
         elevation={3}
         sx={{ padding: 4, textAlign: "center", marginTop: 9 }}
       >
-        {loading && (
+        {status === "loading" && (
           <Box
             display="flex"
             justifyContent="center"
