@@ -1,12 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useNavigate, NavLink, Link } from "react-router";
 import { useDispatch } from "react-redux";
-import { login } from "../store/authSlice.ts";
+import { fetchLogin } from "../store/loginSliceThunk";
 import { Button, Typography, TextField, Box } from "@mui/material";
-import axios from "axios";
 import "../styles/index.css";
 
-export default function Login() {
+export function Login() {
   const {
     register,
     handleSubmit,
@@ -18,21 +17,10 @@ export default function Login() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/auth/login",
-        {
-          username: data.username.trim(),
-          password: data.password.trim(),
-        },
-        { withCredentials: true }
-      );
-
-      if (response.status === 201) {
-        dispatch(login(data.username));
-        navigate("/profile");
-      }
-    } catch (error) {}
+    const resultAction = await dispatch(fetchLogin(data));
+    if (fetchLogin.fulfilled.match(resultAction)) {
+      navigate("/profile");
+    }
   };
 
   return (
