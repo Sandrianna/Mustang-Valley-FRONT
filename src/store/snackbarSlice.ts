@@ -1,9 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { SnackbarValues } from "../interfaces";
+
+const initialState: SnackbarValues = {
+    open: false,
+    message: "",
+}
 
 const snackbarSlice = createSlice({
     name: "snackbar",
-    initialState: { open: false,
-        message: "",},
+    initialState,
     reducers: {
         showSnackbar: (state, action) => {
             state.open = true;
