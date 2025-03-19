@@ -1,8 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
-import { showSnackbar } from "../store/snackbarSlice.ts";
-import { fetchGallery } from "../store/gallerySliceThunk.js";
-import { useNavigate } from "react-router";
-
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchGallery } from '../store/gallerySliceThunk.ts';
 import {
   Button,
   Container,
@@ -11,17 +8,14 @@ import {
   Typography,
   ImageList,
   ImageListItem,
-} from "@mui/material";
-import "../styles/gallery.css";
+} from '@mui/material';
+import '../styles/gallery.css';
+import { AppDispatch, GalleryState } from '../interfaces/index.ts';
 
 export function Gallery() {
-  const dispatch = useDispatch();
-  const status = useSelector((state) => state.gallery.status);
-  const images = useSelector((state) => state.gallery.images);
-  const user = useSelector((state) => state.login.user);
-  const navigate = useNavigate();
-
-
+  const dispatch = useDispatch<AppDispatch>();
+  const status = useSelector((state: GalleryState) => state.gallery.status);
+  const images = useSelector((state: GalleryState) => state.gallery.images);
 
   return (
     <Container>
@@ -31,19 +25,17 @@ export function Gallery() {
         </Typography>
         <Button
           variant="contained"
-          sx={{ padding: "15px" }}
+          sx={{ padding: '15px' }}
           color="primary"
-          onClick={()=>{dispatch(fetchGallery())}}
+          onClick={() => {
+            dispatch(fetchGallery());
+          }}
         >
           Загрузить картинки
         </Button>
 
-        {status === "loading" && (
-          <Box
-            display="flex"
-            justifyContent="center"
-            sx={{ marginTop: "20px" }}
-          >
+        {status === 'loading' && (
+          <Box display="flex" justifyContent="center" sx={{ marginTop: '20px' }}>
             <CircularProgress />
           </Box>
         )}

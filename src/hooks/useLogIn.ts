@@ -28,5 +28,5 @@ export function useLogIn() {
     return () => {
       axios.interceptors.response.eject(interceptor);
     };
-  }, [navigate, showSnackbar]);
+  }, [dispatch, navigate]);
 }

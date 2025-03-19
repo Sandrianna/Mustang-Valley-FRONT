@@ -1,25 +1,25 @@
-import { useForm } from "react-hook-form";
-import { useNavigate, NavLink, Link } from "react-router";
-import { useDispatch } from "react-redux";
-import { fetchLogin } from "../store/loginSliceThunk";
-import { Button, Typography, TextField, Box } from "@mui/material";
-import "../styles/index.css";
+import { useForm } from 'react-hook-form';
+import { useNavigate, NavLink } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { fetchLogin } from '../store/loginSliceThunk';
+import { Button, Typography, TextField, Box, Link } from '@mui/material';
+import '../styles/index.css';
+import { AppDispatch, UsernamePassword } from '../interfaces';
 
 export function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
-  } = useForm();
+  } = useForm<UsernamePassword>();
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: UsernamePassword) => {
     const resultAction = await dispatch(fetchLogin(data));
     if (fetchLogin.fulfilled.match(resultAction)) {
-      navigate("/profile");
+      navigate('/profile');
     }
   };
 
@@ -34,11 +34,10 @@ export function Login() {
           variant="outlined"
           fullWidth
           margin="normal"
-          {...register("username", {
-            required: "Имя обязательно!",
+          {...register('username', {
+            required: 'Имя обязательно!',
             validate: (value) =>
-              /^\S+$/.test(value) ||
-              "Имя не должно содержать пробелов или пустых строк!",
+              /^\S+$/.test(value) || 'Имя не должно содержать пробелов или пустых строк!',
           })}
           error={!!errors.username}
           helperText={errors.username?.message}
@@ -49,11 +48,10 @@ export function Login() {
           variant="outlined"
           fullWidth
           margin="normal"
-          {...register("password", {
-            required: "Пароль обязателен!",
+          {...register('password', {
+            required: 'Пароль обязателен!',
             validate: (value) =>
-              /^\S+$/.test(value) ||
-              "Пароль не должен содержать пробелов или пустых строк!",
+              /^\S+$/.test(value) || 'Пароль не должен содержать пробелов или пустых строк!',
           })}
           error={!!errors.password}
           helperText={errors.password?.message}

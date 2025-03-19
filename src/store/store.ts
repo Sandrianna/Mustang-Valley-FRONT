@@ -1,9 +1,9 @@
 import {configureStore} from "@reduxjs/toolkit";
 import snackbarReducer from "./snackbarSlice.ts";
-import profileReducer from "./profileSliceThunk.js";
-import loginReducer from "./loginSliceThunk.js";
-import signUpReducer from "./signSliceThunk.js";
-import galleryReducer from "./gallerySliceThunk.js"
+import profileReducer from "./profileSliceThunk.ts";
+import loginReducer from "./loginSliceThunk.ts"
+import signUpReducer from "./signSliceThunk.ts";
+import galleryReducer from "./gallerySliceThunk.ts"
 
 
 export const store = configureStore({
