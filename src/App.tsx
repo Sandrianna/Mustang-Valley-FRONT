@@ -11,6 +11,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { showSnackbar } from './store/snackbarSlice.ts';
 import { LoginState, ProfileState } from './interfaces/index.ts';
+import { EditProfile } from './pages/EditProfile';
+import { EditPreferences } from './pages/EditPreferences';
+import { ProtectedAdminRoute } from './components/ProtectedAdminRole.tsx';
+import { AdminPanel } from './pages/AdminPanel.tsx';
+//import { InitSms } from './components/InitSms.tsx';//
 
 const RedirectUser = ({ children }: { children: ReactNode }) => {
   const dispatch = useDispatch();
@@ -46,7 +51,17 @@ export function App() {
           }
         />
         <Route path="/login" element={<Login />} />
+        // App.tsx
+        <Route
+          path="/admin"
+          element={
+            <ProtectedAdminRoute>
+              <AdminPanel />
+            </ProtectedAdminRoute>
+          }
+        />
         <Route path="/registration" element={<SignUp />} />
+        {/*<Route path='verify-sms' element={<InitSms />} />*/}
         <Route
           path="/profile"
           element={
@@ -55,6 +70,8 @@ export function App() {
             </RedirectUser>
           }
         />
+        <Route path="/edit-preferences" element={<EditPreferences />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
       </Routes>
     </>
   );
