@@ -1,22 +1,34 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { LoginValues, UsernamePassword } from "../interfaces";
+import { LoginValues } from "../interfaces";
 import axios from "axios";
 
-export const fetchLogin = createAsyncThunk<string | void, UsernamePassword>(
-    "login/fetchLogin",
-    async(userData) => {
-        
-            const response = await axios.post("http://localhost:3000/auth/login",
+export const fetchLogin = createAsyncThunk<{ username: string; role: string } | null, {username: string; password: string}>(
+  "login/fetchLogin",
+  async (userData, { rejectWithValue }) => {
+    try {
+
+      const loginResponse = await axios.post(
+        "http://localhost:3000/auth/login",
         {
           username: userData.username.trim(),
           password: userData.password.trim(),
         },
-        { withCredentials: true });
-        if(response.status === 201){
-            return userData.username;
-        }
-      
+        { withCredentials: true }
+      );
+
+      const profileRes = await axios.get("http://localhost:3000/auth/profile", {
+        withCredentials: true,
+      });
+
+      const { user } = profileRes.data;
+      return { username: user.username, role: user.role }; 
+    } catch (err: any) {
+      if (err.response) {
+        return rejectWithValue(err.response.data.message || err.response.statusText);
+      }
+      return rejectWithValue("Login or profile fetch failed");
     }
+  }
 );
 
 const initialState: LoginValues = {
@@ -39,7 +51,7 @@ const loginSlice = createSlice({
             })
             .addCase(fetchLogin.fulfilled, (state, action) => {
                 state.status = "succeeded";
-                state.user = action.payload;
+                state.user = action.payload ?? null;
             })
             .addCase(fetchLogin.rejected, (state) => {
                 state.status = "failed";

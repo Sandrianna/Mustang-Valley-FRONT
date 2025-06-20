@@ -5,11 +5,9 @@ import axios from "axios";
 export const fetchGallery = createAsyncThunk<string[] | void>(
     "profile/fetchProfile",
     async() => {
-       
+        
         const response = await axios.get("http://localhost:3000/users/me/images",  { withCredentials: true });
-     
-            return response.data.message;
-         
+        return response.data.message;
        
     }
 );
