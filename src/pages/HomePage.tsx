@@ -53,10 +53,11 @@ import {
   resetBookingState,
 } from '../store/bookingSliceThunk';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../interfaces';
+import { AppDispatch, LoginState, RootState } from '../interfaces';
 
 export function HomePage() {
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
+  const user = useSelector((state: LoginState) => state.login.user);
   const theme = useTheme();
   const [selectedOption, setSelectedOption] = useState('estate');
   const [bookingData, setBookingData] = useState({
@@ -150,20 +151,27 @@ export function HomePage() {
       return;
     }
 
-    try {
-      const resultAction = await dispatch(createBooking(bookingData));
-
-      if (createBooking.fulfilled.match(resultAction)) {
-        navigate('/profile');
-      }
-    } catch (error) {
-      console.error('Error creating booking:', error);
+     try {
+    if (!user) { // проверка наличия пользователя
+      dispatch(showSnackbar('Для бронирования необходимо войти в систему'));
+      navigate('/login');
+      return;
     }
+
+    const resultAction = await dispatch(createBooking(bookingData));
+    
+    if (createBooking.fulfilled.match(resultAction)) {
+      navigate('/profile');
+    }
+  } catch (error) {
+    console.error('Booking error:', error);
+    dispatch(showSnackbar('Ошибка бронирования. Пожалуйста, войдите в систему.'));
+  }
   };
 
   useEffect(() => {
     if (bookingState.status === 'failed' && bookingState.error) {
-      alert(`Ошибка бронирования: ${bookingState.error}`);
+      dispatch(showSnackbar(`Ошибка бронирования: ${bookingState.error}`));
       dispatch(resetBookingState());
     }
   }, [bookingState.status, bookingState.error, dispatch]);
