@@ -3,7 +3,8 @@ import { useNavigate, NavLink } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { fetchLogin } from '../store/loginSliceThunk';
 import { Button, Typography, TextField, Box, Link } from '@mui/material';
-import '../styles/index.css';
+
+import '../styles/login.css';
 import { AppDispatch, UsernamePassword } from '../interfaces';
 
 export function Login() {
@@ -18,8 +19,17 @@ export function Login() {
 
   const onSubmit = async (data: UsernamePassword) => {
     const resultAction = await dispatch(fetchLogin(data));
+
     if (fetchLogin.fulfilled.match(resultAction)) {
-      navigate('/profile');
+      if (resultAction.payload) {
+        const { role } = resultAction.payload;
+
+        if (role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/profile');
+        }
+      }
     }
   };
 
@@ -30,14 +40,14 @@ export function Login() {
           Форма входа
         </Typography>
         <TextField
-          label="Имя пользователя"
+          label="Логин"
           variant="outlined"
           fullWidth
           margin="normal"
           {...register('username', {
-            required: 'Имя обязательно!',
+            required: 'Логин обязателен!',
             validate: (value) =>
-              /^\S+$/.test(value) || 'Имя не должно содержать пробелов или пустых строк!',
+              /^\S+$/.test(value) || 'Логин не должен содержать пробелов или пустых строк!',
           })}
           error={!!errors.username}
           helperText={errors.username?.message}
@@ -59,7 +69,6 @@ export function Login() {
         <Button
           type="submit"
           variant="contained"
-          color="primary"
           fullWidth
           className="btn--submit"
           sx={{ marginTop: 3 }}
