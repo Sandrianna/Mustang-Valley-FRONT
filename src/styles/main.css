@@ -1,34 +1,745 @@
-/*body {
-    margin: 0;
-    padding: 0;
-    font-family: helvetica, sans-serif;
-  }
-  
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-  }
-  
+:root {
+  --primary-dark: #becdbe;        
+  --primary-main: #1B5E20;       
+  --primary-light: #4CAF50;
 
-  
-  a {
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 20px;
-  }
-  
-  a:hover {
-    background-color: #555;
-  }
-  
-  a.active {
-    color: pink;
-  }
+  --secondary-dark: #1e2d24;
+  --secondary-main: #37474F;
+  --secondary-light: #546E7A;
 
-.none {
-    display: none;
-}*/
+  --text-primary: #ffffff;        
+  --text-secondary: #cfcfcf;
+
+  --background-default: #0f2417;  
+  --background-paper: #36503a76;    
+  --background-more: #10361676; 
+}
+
+body {
+  background-color: var(--background-default);
+  color: var(--text-primary);
+  font-family: 'Roboto', sans-serif;
+}
+
+.container {
+  padding-top: 80px !important;
+}
+
+.section {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+}
+
+.sectionTitle {
+  position: relative;
+  text-align: center;
+  padding-bottom: 0.5rem;
+}
+
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-main), var(--primary-light));
+  border-radius: 2px;
+  animation: gradientShift 3s ease infinite alternate;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.hero {
+  position: relative;
+  min-height: 60vh;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 5rem;
+  perspective: 100px;
+  height: 70vh;
+}
+
+.heroImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translateZ(-5px) scale(1.05);
+  transition: transform 0.5s ease-out;
+}
+
+.hero:hover .heroImage {
+  transform: translateZ(0) scale(1);
+}
+
+.heroContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 65vh;
+  text-align: center;
+  padding: 2rem;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.heroTitle {
+  color: white;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.heroSubtitle {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.serviceCard {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: translateY(0);
+}
+
+
+.serviceCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 25px -5px rgba(27, 94, 32, 0.2) , 
+              0 10px 10px -5px rgba(27, 94, 32, 0.1) ;
+}
+
+.serviceCard .MuiCollapse-root {
+  text-shadow: 
+    -1px -1px 0 #676767,
+    1px -1px 0 #676767,
+    -1px 1px 0 #676767,
+    1px 1px 0 #676767; 
+  background-color: rgba(74, 106, 76, 0.05);
+  margin: 0 -16px -16px;
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+}
+
+.serviceCard .MuiCollapse-root .MuiCardContent-root {
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(8, 124, 22, 0.719) 0%, rgba(69, 179, 87, 0.418) 100%);
+  border-top: 1px solid rgba(11, 122, 16, 0.422);
+}
+
+.serviceCard .MuiCollapse-root p {
+  color: var(--text-primary);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.serviceCard .MuiCollapse-wrapperInner {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.serviceCard .MuiCollapse-root ul {
+  padding-left: 2rem;
+  margin: 1rem 0;
+}
+
+.serviceCard .MuiCollapse-root li {
+  position: relative;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.serviceCard .MuiCollapse-root li::marker {
+  color: var(--primary-main);
+  font-size: 1.2em;
+}
+
+#about-us-section {
+  background-color: var(--background-paper);
+  padding: 4rem 2rem;
+  border-radius: 12px;
+}
+
+.servicesGrid {
+  display: flex;
+  overflow-x: auto;
+  gap: 1.5rem;
+  padding: 2rem 0;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  align-items: flex-start; 
+}
+
+.serviceCard {
+  flex: 0 0 auto;
+  width: 300px;
+  scroll-snap-align: start;
+  background-color: var(--background-paper);
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  min-height: 400px; 
+}
+
+
+.serviceCardContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.serviceCardActions {
+  padding: 16px;
+  margin-top: auto; 
+}
+
+.serviceCard.expanded {
+  min-height: auto; 
+}
+
+.serviceMedia {
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px 12px 0 0;
+}
+
+.serviceTitle {
+  font-weight: 600;
+  color: var(--primary-main);
+  margin-bottom: 0.5rem;
+}
+
+.servicesGrid::-webkit-scrollbar {
+  display: none;
+}
+.servicesGrid {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.serviceCard .MuiCollapse-root {
+  background-color: rgba(27, 94, 32, 0.05);
+  margin: 0 -16px -16px;
+}
+
+.serviceCard .MuiCollapse-root .MuiCardContent-root {
+  padding-top: 0;
+}
+
+.rentalOptions {
+  background-color: var(--background-paper);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  margin: 4rem 0;
+}
+
+.optionCard {
+  margin-bottom: 1.5rem;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid rgba(58, 127, 62, 0.303);
+  overflow: hidden;
+  background-color: rgba(27, 94, 32, 0.05);
+}
+
+.optionCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(46, 125, 50, 0.15);
+  border-color: var(--primary-main);
+}
+
+.selectedOption {
+  border: 2px solid var(--primary-main) !important;
+  background-color: rgba(24, 162, 33, 0.14) !important; box-shadow: 0 0 10px rgba(46, 125, 50, 0.7), 
+              0 0 20px rgba(46, 125, 50, 0.5),
+              0 0 30px rgba(46, 125, 50, 0.3);
+  animation: pulse 3s infinite;
+}
+
+.selectedOption .priceSelected {
+  color: #83e289;
+}
+
+.selectedOption .MuiTypography-h6 {
+  color: var(--primary-dark) !important;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(46, 125, 50, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(46, 125, 50, 0); }
+}
+
+.optionCard .MuiFormControlLabel-root {
+  padding: 1.5rem;
+  align-items: flex-start;
+}
+
+.optionCard .MuiRadio-root {
+  color: var(--primary-main) !important;
+}
+
+.optionCard .MuiTypography-h6 {
+  font-weight: 600;
+  color: var(--primary-main);
+  margin-bottom: 0.5rem;
+}
+
+.optionCard .MuiTypography-body2 {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.packageCard {
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0);
+  border: 1px solid rgba(46, 125, 50, 0.2);
+  transition: all 0.3s ease;
+}
+
+.packageCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(46, 125, 50, 0.2);
+}
+
+.packageMedia {
+  height: 300px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.packageCard:hover .packageMedia {
+  transform: scale(1.03);
+}
+
+.packageTitle {
+  color: var(--primary-dark);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.packageTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--primary-main);
+}
+
+.packageCard .MuiCardContent {
+  padding: 2rem;
+}
+
+.packageCard ul {
+  list-style-type: none;
+  padding-left: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.packageCard li {
+  position: relative;
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  color:#15320d;
+  line-height: 1.6;
+}
+
+.packageCard li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--primary-main);
+  font-weight: bold;
+}
+
+.packageCard .button {
+  margin-top: 2rem;
+  padding: 1rem !important;
+  font-size: 1.1rem !important;
+  background: linear-gradient(135deg, var(--primary-main), var(--primary-dark)) !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+.packageCard .button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+#contacts-section {
+  background-color: var(--background-paper);
+  border-radius: 16px;
+  padding: 2rem 2rem;
+  margin: 4rem 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.contactItem {
+  background: rgba(27, 94, 32, 0.05);
+  border-radius: 12px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(46, 125, 50, 0.2);
+  text-align: center;
+}
+
+.contactItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(46, 125, 50, 0.15);
+  background: rgba(27, 94, 32, 0.1);
+}
+
+.contactIcon {
+  font-size: 2.5rem !important;
+  color: var(--primary-main);
+  margin-bottom: 1.5rem;
+}
+
+.contactTitle {
+  font-weight: 600;
+  color: var(--primary-dark);
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.contactTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 2px;
+  background: var(--primary-main);
+}
+
+.contactItem .MuiTypography-body1 {
+  color: var(--text-primary);
+  text-align: center;
+  line-height: 1.6;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  #contacts-section {
+    padding: 3rem 1rem;
+  }
+  
+  .contactItem {
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+  }
+}
+
+.button {
+  background-color: var(--primary-main) !important;
+  color: white !important;
+  padding: 0.8rem 2rem !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  transition: all 0.3s ease !important;
+   position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: 0.5s;
+  z-index: -1;
+}
+
+.button:hover::before {
+  left: 100%;
+}
+
+.button:hover {
+  background-color: var(--primary-dark) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.secondaryButton {
+  background-color: transparent !important;
+  color: var(--primary-main) !important;
+  border: 1px solid var(--primary-main) !important;
+}
+
+.secondaryButton:hover {
+  background-color: rgba(46, 125, 50, 0.1) !important;
+}
+
+.location-section {
+  background-color: var(--background-paper);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  margin: 4rem 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+
+.location-section .sectionTitle {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 2.5rem;
+  color: var(--text-primary);
+}
+
+
+.map-container {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(46, 125, 50, 0.3);
+}
+
+.map-container:hover {
+  box-shadow: 0 10px 25px rgba(46, 125, 50, 0.2);
+  transform: translateY(-3px);
+}
+
+.map {
+  width: 100%;
+  height: 450px;
+  border: none;
+  display: block;
+}
+
+.map-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(15, 36, 23, 0.9), transparent);
+  padding: 1.5rem;
+  color: white;
+  text-align: center;
+}
+
+.address-info {
+  background-color: var(--background-paper);
+  border-radius: 8px;
+  padding: 1.2rem;
+  margin-top: 2rem;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.address-icon {
+  color: var(--primary-main);
+  margin-right: 1rem;
+  font-size: 2rem !important;
+}
+
+.address-text {
+  text-align: left;
+}
+
+.address-text h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--primary-dark);
+}
+
+.address-text p {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+#reservation-section {
+ background-color: var(--background-paper);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  margin: 4rem 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+
+#reservation-section .sectionTitle {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 2.5rem;
+  color: var(--text-primary);
+}
+
+
+.booking-form {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) ;
+  transition: all 0.4s ease;
+}
+
+.booking-form:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.booking-field {
+  margin-bottom: 1.5rem ;
+}
+
+.booking-field .MuiFormControl-root {
+  width: 100%;
+}
+
+.booking-field .MuiInputLabel-root {
+  color: var(--primary-main);
+  font-weight: 500;
+}
+
+.booking-field .MuiOutlinedInput-root {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.booking-field .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: var(--primary-main);
+}
+
+.booking-field .Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-width: 2px;
+  border-color: var(--primary-main);
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+}
+
+.booking-calendar {
+  border-radius: 10px;
+  overflow: hidden ;
+}
+
+.booking-calendar .MuiPickersDay-daySelected {
+  background-color: var(--primary-main);
+}
+
+.booking-submit-btn {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary-main));
+  color: white;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.booking-submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: 0.5s;
+}
+
+.booking-submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.booking-submit-btn:hover::before {
+  left: 100%;
+}
+
+.booking-submit-btn:disabled {
+  background: #e0e0e0;
+  transform: none;
+  box-shadow: none;
+}
+
+.MuiDateCalendar-root {
+  width: 100% !important;
+}
+
+.MuiPickersDay-root.Mui-disabled:not(.Mui-selected) {
+  color: #ff6b6b !important;
+  text-decoration: line-through;
+  position: relative;
+}
+
+.MuiPickersDay-root.Mui-disabled:not(.Mui-selected)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #ff6b6b;
+}
+
+.MuiPickersDay-root.Mui-selected {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+.MuiPickersDay-today {
+  border-color: #4caf50 !important;
+}
+
+.MuiFormHelperText-root.Mui-error {
+  color: #f44336;
+  margin-left: 0;
+}
+
+@media (max-width: 768px) {
+  .booking-section {
+    padding: 2rem 1rem;
+    margin: 3rem 0;
+  }
+  
+  .booking-form {
+    padding: 1.5rem;
+  }
+  
+  .booking-title {
+    font-size: 1.8rem;
+  }
+}

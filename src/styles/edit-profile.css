@@ -1,0 +1,165 @@
+.edit-profile-container {
+  margin-top: 7rem !important;
+  margin-bottom: 4em !important;
+  padding: 0 1rem !important;
+}
+
+.edit-profile-paper {
+  padding: 2.5rem !important;
+  border-radius: 16px !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.1) 100%) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+}
+
+.edit-profile-title {
+  color: #e8f5e9 ;
+  font-weight: 700 !important;
+  margin-bottom: 1.5rem !important;
+  text-align: center !important;
+}
+
+.edit-profile-field .MuiOutlinedInput-root {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-radius: 12px !important;
+  color: #e8f5e9;
+}
+
+.edit-profile-field .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(76, 175, 80, 0.3) !important;
+}
+
+.edit-profile-field .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(76, 175, 80, 0.5) !important;
+}
+
+.edit-profile-field .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #4caf50;
+  border-width: 1px ;
+}
+
+.edit-profile-field .MuiInputLabel-root {
+  color: #81c784 ;
+}
+
+.edit-profile-field .MuiInputLabel-root.Mui-focused {
+  color: #4caf50;
+}
+
+.edit-profile-field .MuiInputBase-input {
+  color: #e8f5e9;
+}
+
+.edit-profile-multiline .MuiOutlinedInput-root {
+  background-color: rgba(27, 94, 32, 0.1) !important;
+}
+
+.edit-profile-button-container {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.edit-profile-avatar {
+  width: 100px !important;
+  height: 100px !important;
+  border-radius: 50% !important;
+}
+
+.edit-profile-avatar-container {
+  display: flex !important;
+  justify-content: center !important;
+  position: relative !important;
+}
+
+.edit-profile-button {
+  background: linear-gradient(135deg, #2e7d32, #4caf50) !important;
+  color: white;
+  padding: 12px 32px !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  font-size: 1rem !important;
+  box-shadow: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.edit-profile-button:hover {
+  background: linear-gradient(135deg, #1b5e20, #388e3c) !important;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3) !important;
+}
+
+@media (max-width: 900px) {
+  .edit-profile-container {
+    margin-top: 1rem;
+  }
+  
+  .edit-profile-paper {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .edit-profile-title {
+    font-size: 1.5rem;
+  }
+  
+  .edit-profile-button {
+    padding: 10px 24px;
+    font-size: 0.9rem;
+  }
+}
+
+.edit-profile-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.edit-profile-back-button {
+  color: #81c784 !important;
+  border-color: #81c784 !important;
+  padding: 12px 24px !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  font-size: 1rem !important;
+  transition: all 0.3s ease !important;
+  flex: 1 !important;
+}
+
+.edit-profile-back-button:hover {
+  background-color: rgba(129, 199, 132, 0.1) !important;
+  border-color: #4caf50 !important;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2) !important;
+}
+
+.edit-profile-button {
+  background: linear-gradient(135deg, #2e7d32, #4caf50) !important;
+  color: white !important;
+  padding: 12px 24px !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  font-size: 1rem !important;
+  box-shadow: none !important;
+  transition: all 0.3s ease !important;
+  flex: 1;
+}
+
+.edit-profile-button:hover {
+  background: linear-gradient(135deg, #1b5e20, #388e3c) !important;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3) !important;
+}
+
+@media (max-width: 600px) {
+  .edit-profile-buttons-container {
+    flex-direction: column;
+  }
+  
+  .edit-profile-back-button,
+  .edit-profile-button {
+    width: 100%;
+  }
+}

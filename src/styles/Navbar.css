@@ -1,0 +1,90 @@
+.button {
+  color: #e8f5e9;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  text-transform: uppercase !important;
+  transition: all 0.25s ease;
+}
+
+.button:hover {
+  background-color: #2e7d32;
+  transform: scale(1.05);
+  color: #ffffff;
+}
+
+.activeButton {
+  font-weight: bold;
+  border-bottom: 3px solid #66bb6a;
+}
+
+.menu {
+  background: linear-gradient(145deg, #1b5e20, #2e7d32);
+  border-radius: 10px;
+  padding: 4px 0;
+  box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.3);
+}
+
+.menuItem {
+  color: #e8f5e9;
+  padding: 10px 20px;
+  transition: all 0.2s ease-in-out;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.menuItem:hover {
+  background-color: #43a047;
+  color: #175b0f;
+  transform: translateX(5px);
+}
+
+.social-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.social-icon {
+  color: #c8e6c9 !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+.social-icon:hover {
+  transform: scale(1.2);
+}
+
+.social-icon.instagram:hover {
+  color: #E1306C !important;
+}
+
+.social-icon.telegram:hover {
+  color: #0088cc !important;
+}
+
+.social-icon.viber:hover {
+  color: #7360F2 !important;
+}
+
+.typographyForName {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 1.8rem !important;
+  color: #A5D6A7;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 900px) {
+  .button {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+  
+  .menuItem {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+  
+  .social-icon {
+    padding: 6px;
+  }
+}

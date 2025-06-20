@@ -1,0 +1,135 @@
+.preferences-container {
+  padding: 2rem !important;
+  max-width: 600px !important;
+  margin: 7rem auto !important;
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.1) 100%) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 60vh !important; 
+}
+
+.preferences-title {
+  color: #e8f5e9;
+  font-weight: 600 !important;
+  margin-bottom: 1.5rem !important;
+  text-align: center !important;
+}
+
+.preferences-field {
+  margin-bottom: 1.5rem !important;
+}
+
+.preferences-field .MuiOutlinedInput-root {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-radius: 12px !important;
+  color: #e8f5e9;
+}
+
+.preferences-field .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(76, 175, 80, 0.3) !important;
+}
+
+.preferences-field .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(76, 175, 80, 0.5) !important;
+}
+
+.preferences-field .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #4caf50;
+}
+
+.preferences-field .MuiInputLabel-root {
+  color: #81c784 ;
+}
+
+.preferences-field .MuiInputLabel-root.Mui-focused {
+  color: #4caf50;
+}
+
+.preferences-field .MuiInputBase-input {
+  color: #e8f5e9;
+}
+
+.preferences-buttons {
+     display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+  color: white;
+  padding: 12px 32px !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  font-size: 1rem !important;
+  box-shadow: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.preferences-back-button,
+.preferences-save-button {
+  flex: 1 !important; 
+  max-width: 250px !important;
+  padding: 12px 24px !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.preferences-back-button {
+  color: #81c784 !important;
+  border-color: #81c784 !important;
+  padding: 12px 24px !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  font-size: 1rem !important;
+  transition: all 0.3s ease !important;
+  flex: 1 !important;
+}
+
+.preferences-back-button:hover {
+  background-color: rgba(129, 199, 132, 0.1) !important;
+  border-color: #4caf50 !important;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2) !important;
+}
+
+.preferences-save-button {
+  background: linear-gradient(135deg, #2e7d32, #4caf50) !important;
+  color: white !important;
+  padding: 12px 24px !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  font-size: 1rem !important;
+  box-shadow: none !important;
+  transition: all 0.3s ease !important;
+  flex: 1;
+}
+
+.preferences-save-button:hover {
+  background: linear-gradient(135deg, #1b5e20, #388e3c) !important;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3) !important;
+}
+
+@media (max-width: 600px) {
+  .preferences-container {
+    padding: 1.5rem !important;
+    margin: 1rem !important;
+    min-height: calc(100vh - 2rem) !important;
+  }
+  
+  .preferences-buttons {
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+  
+  .preferences-back-button,
+  .preferences-save-button {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+}

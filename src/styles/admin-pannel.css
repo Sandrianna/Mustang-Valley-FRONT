@@ -1,0 +1,192 @@
+.admin-panel-container {
+  margin-top: 7rem;
+  margin-bottom: rem;
+  color: var(--text-primary) !important;
+}
+
+.admin-title {
+  color: var(--primary-light);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.admin-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-main), var(--primary-light));
+  border-radius: 2px;
+}
+
+.admin-tabs .MuiTabs-indicator {
+  background-color: var(--primary-light) !important;
+}
+
+.admin-tabs .MuiTab-root {
+  color: var(--text-secondary);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.admin-tabs .Mui-selected {
+  color: var(--primary-light) !important;
+}
+
+.admin-table-paper {
+  background: var(--background-paper) !important;
+  border-radius: 6px !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2) !important;
+  overflow: hidden !important;
+}
+
+.admin-table-container {
+  overflow-x: auto;
+  max-height: 70vh;
+}
+
+.admin-table-header {
+  background-color: var(--secondary-main) !important;
+}
+
+.admin-table-header .MuiTableCell-head {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 1rem;
+  background-color: #0c75137f;
+}
+
+.admin-table-row {
+  background-color: #0178097c !important;
+  transition: all 0.3s ease;
+}
+
+
+.admin-table-row:hover {
+  background-color: rgba(76, 175, 80, 0.1) !important;
+}
+
+.admin-table-row .MuiTableCell-body {
+  color: var(--text-primary) ;
+  border-bottom: 1px solid rgba(255,255,255,0.05) ;
+}
+
+.admin-delete-btn {
+  background-color: rgba(224, 68, 57, 0.493) !important;
+  color: #f44336 !important;
+  transition: all 0.3s ease !important;
+  border-radius: 8px !important;
+  padding: 10px 18px !important;
+  text-transform: uppercase !important;
+}
+
+.admin-delete-btn:hover {
+  background-color: rgba(244, 67, 54, 0.2) !important;
+  transform: translateY(-2px) ;
+}
+
+.admin-loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+.admin-loading-text {
+  margin-left: 1rem;
+  color: var(--primary-light);
+}
+
+@media (max-width: 768px) {
+  .admin-panel-container {
+    margin-top: 5rem;
+    padding: 0 1rem;
+  }
+  
+  .admin-title {
+    font-size: 1.8rem;
+  }
+  
+  .admin-table-container {
+    max-height: none;
+  }
+  
+  .admin-table-header .MuiTableCell-head {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+  
+  .admin-table-row .MuiTableCell-body {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.admin-table-paper {
+  animation: fadeIn 0.5s ease-out forwards !important;
+}
+
+.admin-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.admin-empty-icon {
+  font-size: 4rem !important;
+  color: var(--primary-main);
+  margin-bottom: 1rem;
+}
+
+.admin-table-container::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.admin-table-container::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.05);
+  border-radius: 4px;
+}
+
+.admin-table-container::-webkit-scrollbar-thumb {
+  background: var(--primary-main) !important;
+  border-radius: 4px;
+}
+
+.admin-table-container::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-light);
+}
+
+.admin-logout-btn {
+  color: #f44336 !important;
+  transition: all 0.3s ease !important;
+  border-radius: 50% !important;
+  padding: 10px !important;
+  border: 1px solid rgba(244, 67, 54, 0.3) !important;
+}
+
+.admin-logout-btn:hover {
+  background-color: rgba(244, 67, 54, 0.1) !important;
+  transform: scale(1.1);
+}
+
+.admin-logout-btn .MuiSvgIcon-root {
+  font-size: 1.5rem;
+}
