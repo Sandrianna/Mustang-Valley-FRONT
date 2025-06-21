@@ -48,13 +48,9 @@ export function Profile() {
     dispatch(fetchUserBookings());
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(fetchProfile());
-
-    return () => {
-      dispatch(clearProfile());
-    };
-  }, [dispatch]);
+ useEffect(() => {
+  dispatch(fetchProfile());
+}, [dispatch]);
 
   const handleBookNow = () => {
   if (location.pathname !== '/') {
