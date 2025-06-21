@@ -70,8 +70,8 @@ export function App() {
             </RedirectUser>
           }
         />
-        <Route path="/edit-preferences" element={<EditPreferences />} />
-        <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/edit-preferences" element={<RedirectUser><EditPreferences /></RedirectUser>} />
+        <Route path="/edit-profile" element={<RedirectUser><EditProfile /></RedirectUser>} />
       </Routes>
     </>
   );
