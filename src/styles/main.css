@@ -229,13 +229,7 @@ body {
   margin-bottom: 0.5rem;
 }
 
-.servicesGrid::-webkit-scrollbar {
-  display: none;
-}
-.servicesGrid {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
+
 
 .serviceCard .MuiCollapse-root {
   background-color: rgba(27, 94, 32, 0.05);

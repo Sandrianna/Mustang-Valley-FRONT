@@ -119,6 +119,7 @@
   .preferences-container {
     padding: 1.5rem !important;
     margin: 1rem !important;
+    margin-top: 5rem !important;
     min-height: calc(100vh - 2rem) !important;
   }
   
